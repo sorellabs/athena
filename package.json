@@ -1,0 +1,20 @@
+{
+  "author": "The Orphoundation <info@orphoundation.org> (http://orphoundation.org/)",
+  "name": "athena",
+  "description": "Strategically gives you awesome functional combinators for an abstraction war!",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Orphoundation/athena.git"
+  },
+  "main": "./src/index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "engines": {
+    "node": "~0.8.1"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "optionalDependencies": {}
+}
