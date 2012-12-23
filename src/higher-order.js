@@ -120,7 +120,7 @@ function partial(fun) {
 //
 // Returns a function that wraps the invocation of the given function.
 //
-// wrap :: Fun, (Fun -> a) -> b
+// wrap :: Fun, (Fun, a... -> b) -> b
 function wrap(fun, wrapper) {
   return function _Wrapper() {
            return wrapper.apply(this, [fun].concat(slice.call(arguments))) }}
