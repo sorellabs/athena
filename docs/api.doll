@@ -1,0 +1,90 @@
+== Athena API ==========================================================
+
+--- Types
+
+type Fun :: a... -> b
+
+type Pred :: a -> Bool
+
+type TimerID :: PlatformSpecific a
+
+--- Module core --------------------------------------------------------
+
+-- | Identity function
+id :: a -> a
+
+-- | Constant function
+k :: a -> b -> a
+
+-- | No-op
+noop :: () -> Undefined
+
+
+
+--- Module higher-order ------------------------------------------------
+
+-- | Function composition. f . g = f(g(x))
+compose :: [Fun] -> Fun
+
+-- | Flips the arguments order
+flip :: Fun -> a... -> b
+
+-- | Proper currying, with optional user-defined arity
+curry :: Number?, Fun, [a]? -> a... -> ... -> b
+
+-- | Yields a function that applies a list of arguments to the original
+uncurry :: Fun -> [a] -> b
+
+-- | Same as uncurry, but first item is `this`
+uncurry-bind :: Fun -> [this, a...] -> b
+
+-- | Partial application
+partial :: Fun, a... -> a... -> b
+
+-- | Wraps the invocation in another function
+wrap :: Fun, (Fun, a... -> b) -> b
+
+
+
+--- Module logic -------------------------------------------------------
+
+-- | Ors functions together
+or :: Fun... -> a... -> Maybe b
+
+-- | Ands functions together
+and :: Fun... -> a... -> Maybe b
+
+-- | Negates a function's return value
+not :: Fun -> a... -> Bool
+
+
+
+--- Module async -------------------------------------------------------
+
+-- | Delays the execution of a function by X seconds.
+delay :: Number, Fun -> TimerID
+
+-- | Defers the execution of a function to the next Tick.
+defer :: Fun -> IO ()
+
+
+
+--- Module flow --------------------------------------------------------
+
+-- | Executes one or the other function based on the predicate.
+either :: Pred, true:Fun, false:Fun -> a... -> b
+
+-- | Executes the function unless the predicate holds.
+unless :: Pred, Fun -> a... -> b
+
+-- | Yields a function that may only be called X times
+limit :: Number, Fun -> Fun
+
+-- | Yields a function that may only be called once
+once :: Fun -> Fun
+
+-- | Yields a function that will only be called until the predicate holds
+until :: Pred, Fun -> Fun
+
+-- | Yields a function that will only be called after the predicate holds
+when :: Pred, Fun -> Fun
