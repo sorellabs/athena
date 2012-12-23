@@ -75,6 +75,23 @@ function curry(arity, fun, initial) {
            :      /* otherwise */       fun.apply(this, args) }}
 
 
+///// Function partial /////////////////////////////////////////////////////////
+//
+// Partially applies the given arguments to the function, returning a
+// new function.
+//
+// partial :: (a... -> b), a... -> a... -> b
+function partial(fun) {
+  var args = slice.call(arguments, 1)
+
+  return function _PartiallyApplied() {
+           var all_args = args.concat(slice.call(arguments))
+           return fun.apply(this, all_args) }}
+
+
+
+//// -- Parameters ------------------------------------------------------------
+
 ///// Function uncurry /////////////////////////////////////////////////////////
 //
 // Creates a function that takes a list of arguments, then applies those
@@ -99,18 +116,15 @@ function uncurryBind(fun) {
            fun.call.apply(fun, args) }}
 
 
-///// Function partial /////////////////////////////////////////////////////////
+///// Function flip ////////////////////////////////////////////////////////////
 //
-// Partially applies the given arguments to the function, returning a
-// new function.
+// Inverts the order in which parameters are applied.
 //
-// partial :: (a... -> b), a... -> a... -> b
-function partial(fun) {
-  var args = slice.call(arguments, 1)
-
-  return function _PartiallyApplied() {
-           var all_args = args.concat(slice.call(arguments))
-           return fun.apply(this, all_args) }}
+// flip :: Fun -> a... -> b
+function flip(fun) {
+  return function() {
+           var args = slice.call(arguments).reverse()
+           return fun.apply(this, args) }}
 
 
 
@@ -130,7 +144,8 @@ function wrap(fun, wrapper) {
 //// -- Exports ----------------------------------------------------------------
 module.exports = { compose: compose
                  , curry: curry
+                 , partial: partial
                  , uncurry: uncurry
                  , uncurryBind: uncurryBind
-                 , partial: partial
+                 , flip: flip
                  , wrap: wrap }
