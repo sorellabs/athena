@@ -42,7 +42,7 @@ uncurry-bind :: Fun -> [this, a...] -> b
 partial :: Fun, a... -> a... -> b
 
 -- | Wraps the invocation in another function
-wrap :: Fun, (Fun, a... -> b) -> b
+wrap :: (Fun, a... -> b) -> Fun -> b
 
 
 
@@ -62,7 +62,7 @@ not :: Fun -> a... -> Bool
 --- Module async -------------------------------------------------------
 
 -- | Delays the execution of a function by X seconds.
-delay :: Number, Fun -> TimerID
+delay :: Number -> Fun -> TimerID
 
 -- | Defers the execution of a function to the next Tick.
 defer :: Fun -> IO ()
@@ -72,19 +72,19 @@ defer :: Fun -> IO ()
 --- Module flow --------------------------------------------------------
 
 -- | Executes one or the other function based on the predicate.
-either :: Pred, true:Fun, false:Fun -> a... -> b
+either :: Pred -> true:Fun -> false:Fun -> a... -> b
 
 -- | Executes the function unless the predicate holds.
-unless :: Pred, Fun -> a... -> b
+unless :: Pred -> Fun -> a... -> b
 
 -- | Yields a function that may only be called X times
-limit :: Number, Fun -> Fun
+limit :: Number -> Fun -> Fun
 
 -- | Yields a function that may only be called once
 once :: Fun -> Fun
 
 -- | Yields a function that will only be called until the predicate holds
-until :: Pred, Fun -> Fun
+until :: Pred -> Fun -> Fun
 
 -- | Yields a function that will only be called after the predicate holds
-when :: Pred, Fun -> Fun
+when :: Pred -> Fun -> Fun

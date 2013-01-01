@@ -1,0 +1,72 @@
+### logic.ls --- Operators for first-order/predicate logic
+#
+# Copyright (c) 2012 The Orphoundation
+#
+# Permission is hereby granted, free of charge, to any person
+# obtaining a copy of this software and associated documentation files
+# (the "Software"), to deal in the Software without restriction,
+# including without limitation the rights to use, copy, modify, merge,
+# publish, distribute, sublicense, and/or sell copies of the Software,
+# and to permit persons to whom the Software is furnished to do so,
+# subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be
+# included in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+# EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+# NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+# LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+# OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+# WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+### Module athena.logic
+
+
+#### Function or
+#
+# Returns the value of the first truthy function.
+#
+# or :: Fun... -> a... -> Maybe b
+Or = ->
+  funs = arguments
+
+  -> do
+     for f in funs => do
+                      result = f.apply this, arguments
+
+                      if result => return result
+
+
+#### Function and
+#
+# Returns the value of the last truthy function.
+#
+# and :: Fun... -> a... -> Maybe b
+And = ->
+  funs = arguments
+
+  -> do
+     for f in funs => do
+                      result = f.apply this, arguments
+
+                      unless result => return result
+     return result
+
+
+#### Function not
+#
+# Negates the return value of a function.
+#
+# not :: Fun -> a... -> Bool
+Not = (fun) -> -> not (fun.apply this, arguments)
+
+
+
+#### -- Exports --------------------------------------------------------
+module.exports =
+  or  : Or
+  and : And
+  not : Not
