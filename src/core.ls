@@ -1,6 +1,6 @@
 ### core.ls --- Lambda calculus primitive combinators and others
 #
-# Copyright (c) 2012 The Orphoundation
+# Copyright (c) 2012-2013 The Orphoundation
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
