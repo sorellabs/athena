@@ -15,7 +15,9 @@
     "node": "~0.8.1"
   },
   "dependencies": {},
-  "devDependencies": {},
+  "devDependencies": {
+    "LiveScript": "~1.1.1"
+  },
   "optionalDependencies": {},
   "license": "MIT",
   "readmeFilename": "README.md",
