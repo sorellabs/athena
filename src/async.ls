@@ -1,42 +1,45 @@
-### async.ls --- Asynchronous function calls
+# # Module async
 #
-# Copyright (c) 2012-2013 The Orphoundation
+# Asynchronous function calls
 #
-# Permission is hereby granted, free of charge, to any person
-# obtaining a copy of this software and associated documentation files
-# (the "Software"), to deal in the Software without restriction,
-# including without limitation the rights to use, copy, modify, merge,
-# publish, distribute, sublicense, and/or sell copies of the Software,
-# and to permit persons to whom the Software is furnished to do so,
-# subject to the following conditions:
-#
-# The above copyright notice and this permission notice shall be
-# included in all copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-# EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-# NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-# LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-# OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-# WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-### Module athena.async
+# :licence: MIT
+#   Copyright (c) 2013 Quildreen "Sorella" Motta <quildreen@gmail.com>
+#   
+#   Permission is hereby granted, free of charge, to any person
+#   obtaining a copy of this software and associated documentation files
+#   (the "Software"), to deal in the Software without restriction,
+#   including without limitation the rights to use, copy, modify, merge,
+#   publish, distribute, sublicense, and/or sell copies of the Software,
+#   and to permit persons to whom the Software is furnished to do so,
+#   subject to the following conditions:
+#   
+#   The above copyright notice and this permission notice shall be
+#   included in all copies or substantial portions of the Software.
+#   
+#   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+#   EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+#   MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+#   NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+#   BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+#   ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+#   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+#   SOFTWARE.
 
 
-#### -- Dependencies ---------------------------------------------------
+# -- Dependencies ------------------------------------------------------
 {curry} = require './higher-order'
 
 
 
-#### -- Constants ------------------------------------------------------
+# -- Constants ---------------------------------------------------------
+set-immediate-p    = 'setImmediate' of this
 node-p             = 'process' of this
 deferred-timeout-p = 'postMessage' of this
 
 
 
-#### -- Helpers --------------------------------------------------------
-deferred-timeout = do ->
+# -- Helpers -----------------------------------------------------------
+deferred-timeout = when deferred-timeout-p => do ->
   timeouts = []
   message  = '*athena-deferred-application*'
 
@@ -54,32 +57,33 @@ deferred-timeout = do ->
 
 
 
-#### -- Core implementation --------------------------------------------
+# -- Core implementation -----------------------------------------------
 
-##### Function delay
+# ### Function delay
 #
 # Executes the given function after (at least) the given seconds.
 #
-# delay :: Number -> Fun -> IO TimerID
-delay = (seconds, fun) -> set-timeout fun, seconds * 1_000
+# :: number -> (A... -> B) -> timer-id
+delay = (seconds, f) -> set-timeout f, seconds * 1_000
 
 
-##### Function defer
+# ### Function defer
 #
 # Asynchronously executes the function as soon as possible.
 #
 # This should be on the next event tick for Node.js and browsers that
-# support the ``postMessage`` protocol. Otherwise, it'll rely on the
-# ``setTimeout`` application, which can be kind-of *slow*.
+# support the `postMessage` protocol. Otherwise, it'll rely on the
+# `setTimeout` application, which can be kind-of *slow*.
 #
-# defer :: Fun -> IO ()
-defer = (fun) ->
-  | node-p             => process.next-tick fun
-  | deferred-timeout-p => deferred-timeout fun
-  | otherwise          => delay 0, fun
+# :: (A... -> B) -> ()
+defer = (f) ->
+  | set-immediate-p    => set-immediate f
+  | node-p             => process.next-tick f
+  | deferred-timeout-p => deferred-timeout f
+  | otherwise          => delay 0, f
 
 
-#### -- Exports --------------------------------------------------------
+# -- Exports -----------------------------------------------------------
 module.exports = {
   delay: curry delay
   defer

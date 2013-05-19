@@ -1,33 +1,35 @@
-### higher-order.ls --- Higher order / function wrapping utilities
+# # Module higher-order
 #
-# Copyright (c) 2012-2013 The Orphoundation
+# Higher order / function wrapping utilities
 #
-# Permission is hereby granted, free of charge, to any person
-# obtaining a copy of this software and associated documentation files
-# (the "Software"), to deal in the Software without restriction,
-# including without limitation the rights to use, copy, modify, merge,
-# publish, distribute, sublicense, and/or sell copies of the Software,
-# and to permit persons to whom the Software is furnished to do so,
-# subject to the following conditions:
 #
-# The above copyright notice and this permission notice shall be
-# included in all copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-# EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-# NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-# LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-# OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-# WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-### Module athena.higher-order
-
+# :licence: MIT
+#   Copyright (c) 2013 Quildreen "Sorella" Motta <quildreen@gmail.com>
+#   
+#   Permission is hereby granted, free of charge, to any person
+#   obtaining a copy of this software and associated documentation files
+#   (the "Software"), to deal in the Software without restriction,
+#   including without limitation the rights to use, copy, modify, merge,
+#   publish, distribute, sublicense, and/or sell copies of the Software,
+#   and to permit persons to whom the Software is furnished to do so,
+#   subject to the following conditions:
+#   
+#   The above copyright notice and this permission notice shall be
+#   included in all copies or substantial portions of the Software.
+#   
+#   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+#   EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+#   MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+#   NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+#   BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+#   ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+#   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+#   SOFTWARE.
 
 
-#### -- Composition ----------------------------------------------------
+# -- Composition -------------------------------------------------------
 
-##### Function comopose
+# ### Function comopose
 #
 # Composes several functions together.
 #
@@ -35,25 +37,24 @@
 # is, each function in the chain is called with the return value from
 # the previous function in the chain, in reverse order.
 #
-# compose :: Fun... -> Fun
+# :: (A... -> B)... -> A... -> B
 compose = ->
-  funs = arguments
-  len  = funs.length
-
+  fs  = arguments
+  len = funs.length
 
   -> do
      result = arguments
      i      = len
 
-     while (i--) => result = [funs[i].apply this, result]
+     while (i--) => result = [fs[i].apply this, result]
 
      return result.0
 
 
 
-#### -- Currying & Partials --------------------------------------------
+# -- Currying & Partials -----------------------------------------------
 
-##### Function curry
+# ### Function curry
 #
 # Creates a curried function from an uncurried one.
 #
@@ -66,86 +67,85 @@ compose = ->
 # specified, we rely on the ``Function.prototype.length`` property for
 # this.
 #
-# curry :: Number?, (a... -> b), [a]? -> a... -> ... -> b
-curry = (arity, fun, initial) ->
+# :: number?, (A... -> B), [A]? -> A... -> (A... -> B) | B
+curry = (arity, f, initial) ->
   if (typeof arity is 'function')
     initial = arguments[1]
-    fun     = arity
-    arity   = fun.length
+    f       = arity
+    arity   = f.length
 
 
   (...args) -> do
                args := (initial or []) ++ args
 
-               if args.length < arity => curry arity, fun, args
-               else                   => fun.apply this, args
+               if args.length < arity => curry arity, f, args
+               else                   => f.apply this, args
 
 
-##### Function partial
+# ### Function partial
 #
 # Partially applies the given arguments to the function.
 #
-# partial :: (a... -> b), a... -> a... -> b
-partial = (fun, ...args) -> (...additional-args) ->
-  fun.apply this, (args ++ additional-args)
+# :: (a... -> b), a... -> a... -> b
+partial = (f, ...args) -> (...additional-args) ->
+  f.apply this, (args ++ additional-args)
 
 
-##### Function uncurry
+# ### Function uncurry
 #
 # Transforms a curried funtion to a function on lists.
 #
-# uncurry :: (a... -> b) -> [a] -> b
-uncurry = (fun) -> (args) -> fun.apply this, args
+# :: (A... -> B) -> [A] -> B
+uncurry = (f) -> (args) -> f.apply this, args
 
 
-##### Function uncurry-bind
+# ### Function uncurry-bind
 #
 # Transforms a curried function to a function on lists, with binding
 # context.
 #
 # Yields a function that takes a list of arguments, the first being the
-# object that the function should be applied to (``this``), the rest
+# object that the function should be applied to (`this`), the rest
 # being the actual arguments to be passed to the function, the returns
 # the result of applying the original function to such arguments.
 #
-# uncurry-bind :: (a... -> b) -> [this, a...] -> b
-uncurry-bind = (fun) -> (args) -> fun.call.apply this, args
+# :: (A... -> B) -> [this, A...] -> B
+uncurry-bind = (f) -> (args) -> f.call.apply this, args
 
 
-##### Function flip
+# ### Function flip
 #
-# Inverts the order in which parameters are applied.
+# Inverts the order in which parameters are applied for a binary function.
 #
-# flip :: Fun -> a... -> b
-flip = (fun) -> (...args) ->
-  fun.apply this, args.reverse!
+# :: (A, B -> C) -> B, A -> C
+flip = (f) -> (a, b) -> f.call this, b, a
 
 
 
-#### -- Wrapping & Advice ----------------------------------------------
+# -- Wrapping & Advice -------------------------------------------------
 
-##### Function wrap
+# #### Function wrap
 #
 # Returns a function that wraps the invocation of the given function.
 #
-# wrap :: f:Fun, (f, a... -> b) -> b
-wrap = (wrapper, fun) -> (...args) ->
-  wrapper.apply this, ([fun] ++ args)
+# :: f:(A... -> B) -> (f, B... -> C) -> C
+wrap = (wrapper, f) -> (...args) ->
+  wrapper.apply this, ([f] ++ args)
 
 
 
-#### -- Exports --------------------------------------------------------
+# -- Exports -----------------------------------------------------------
 module.exports = {
-  # -- Composition
+  # Composition
   compose
 
-  # -- Currying / Partial application
+  # Currying / Partial application
   curry
   partial
   uncurry
   uncurry-bind
   flip
 
-  # -- Wrapping / Advice
+  # Wrapping / Advice
   wrap: curry wrap
 }

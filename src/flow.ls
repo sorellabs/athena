@@ -1,98 +1,101 @@
-### flow.ls --- Lifted flow control routines
+# # Module flow
 #
-# Copyright (c) 2012-2013 The Orphoundation
+# Lifted flow control routines
 #
-# Permission is hereby granted, free of charge, to any person
-# obtaining a copy of this software and associated documentation files
-# (the "Software"), to deal in the Software without restriction,
-# including without limitation the rights to use, copy, modify, merge,
-# publish, distribute, sublicense, and/or sell copies of the Software,
-# and to permit persons to whom the Software is furnished to do so,
-# subject to the following conditions:
 #
-# The above copyright notice and this permission notice shall be
-# included in all copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-# EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-# NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-# LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-# OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-# WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+# :licence: MIT
+#   Copyright (c) 2013 Quildreen "Sorella" Motta <quildreen@gmail.com>
+#   
+#   Permission is hereby granted, free of charge, to any person
+#   obtaining a copy of this software and associated documentation files
+#   (the "Software"), to deal in the Software without restriction,
+#   including without limitation the rights to use, copy, modify, merge,
+#   publish, distribute, sublicense, and/or sell copies of the Software,
+#   and to permit persons to whom the Software is furnished to do so,
+#   subject to the following conditions:
+#   
+#   The above copyright notice and this permission notice shall be
+#   included in all copies or substantial portions of the Software.
+#   
+#   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+#   EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+#   MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+#   NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+#   BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+#   ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+#   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+#   SOFTWARE.
 
-
-### Module athena.flow
 
 
-#### -- Dependencies ---------------------------------------------------
+# -- Dependencies ------------------------------------------------------
 {curry} = require './higher-order'
 
 
 
-#### -- Core implementation --------------------------------------------
+# -- Core implementation -----------------------------------------------
 
-#### Function either
+# ### Function either
 #
 # Executes one or the other function based on the predicate.
 #
-# either :: Pred -> Fun -> Fun -> a... -> b
+# :: (A... -> bool) -> (A... -> B) -> (A... -> C) -> A... -> B | C
 either = (pred, consequent, alternate) -> ->
   | pred ...  => consequent ...
   | otherwise => alternate ...
 
 
-#### Function unless
+# ### Function unless
 #
 # Executes the function unless the predicate holds.
 #
-# unless :: Pred -> Fun -> a... -> b
+# :: (A... -> bool) -> (A... -> B) -> A... -> maybe B
 Unless = (pred, consequent) -> unless pred ... => consequent ...
 
 
-#### Function limit
+# ### Function limit
 #
 # Yields a function that may only be called X times
 #
-# limit :: Number -> Fun -> Fun
-limit = (times, fun) -> -> if --times < 0 => fun ...
+# :: number -> (A... -> B) -> (A... -> maybe B)
+limit = (times, f) -> -> if --times < 0 => f ...
 
 
-#### Function once
+# ### Function once
 #
 # Yields a function that may only be called once
 #
-# once :: Fun -> Fun
+# :: (A... -> B) -> (A... -> maybe B)
 once = limit 1
 
 
-#### Function until
+# ### Function until
 #
 # Yields a function that will only be called until the predicate holds.
 #
-# until :: Pred -> Fun -> Fun
-Until = (pred, fun) ->
+# :: (A... -> bool) -> (A... -> B) -> (A... -> maybe B)
+Until = (pred, f) ->
   call = true
 
-  -> if call and (call := not pred ...) => fun ...
+  -> if call and (call := not pred ...) => f ...
 
 
-#### Function when
+# ### Function when
 #
 # Yields a function that will only be called after the predicate holds.
 #
-# when :: Pred -> Fun -> Fun
-When = (pred, fun) ->
+# :: (A... -> bool) -> (A... -> B) -> (A... -> maybe B)
+When = (pred, f) ->
   call = false
 
-  -> | call     => fun ...
+  -> | call     => f ...
      | pred ... => do
                    call := true
-                   fun ...
+                   f ...
 
 
 
-#### -- Exports --------------------------------------------------------
+# -- Exports -----------------------------------------------------------
 module.exports = {
   either
   unless: curry Unless
