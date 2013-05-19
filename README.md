@@ -33,10 +33,21 @@ _.compose( _.add(1)
 
 ### Installing
 
-Just grab it from NPM:
+The easiest way is to grab it from NPM (use [browserify][] if you're on a
+Browser):
 
     $ npm install athena
     
+If you **really** want to continue suffering with old and terrible module
+systems (or use no module system at all), you can run `make dist` yourself:
+
+    $ git clone git://github.com/killdream/athena
+    $ cd athena
+    $ npm install
+    $ make dist
+    # Then use `dist/athena.umd.js` wherever you want.
+    
+[browserify]: https://github.com/substack/node-browserify
     
 ### Tests
 

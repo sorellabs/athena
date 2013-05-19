@@ -9,11 +9,8 @@
   },
   "main": "./lib/index.js",
   "scripts": {
-    "cc": "./node_modules/.bin/lsc -o lib -c src/*.ls",
-    "test-cc": "./node_modules/.bin/lsc -o build/lib -c src/*.ls && ./node_modules/.bin/lsc -o build/test -c test/*.ls && ./node_modules/.bin/lsc -o build/test/specs -c test/specs/*.ls",
-    "pretest": "npm run-script cc && npm run-script test-cc",
-    "test": "node ./build/test/node.js",
-    "prepublish": "npm run-script cc"
+    "test": "make test",
+    "prepublish": "make prepublish"
   },
   "dependencies": {},
   "devDependencies": {
@@ -22,7 +19,8 @@
     "chai": "~1.6.0",
     "brofist": "~0.2.2",
     "brofist-minimal": "~0.1.1",
-    "claire": "~0.3.4"
+    "claire": "~0.3.4",
+    "browserify": "~2.14.1"
   },
   "optionalDependencies": {},
   "license": "MIT",
