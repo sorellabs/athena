@@ -54,7 +54,16 @@ platforms by the use of shims. Just include [es5-shim][] :3
 
 ## Tests
 
+For node:
+
     $ npm test
+    
+For the browser:
+
+    $ npm install -g brofist-browser
+    $ make test
+    $ brofist-browser serve build/test/specs
+    # Then point your browsers to the URL on yer console.
     
     
 ## API
