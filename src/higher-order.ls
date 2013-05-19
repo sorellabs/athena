@@ -40,7 +40,7 @@
 # :: (A... -> B)... -> A... -> B
 compose = ->
   fs  = arguments
-  len = funs.length
+  len = fs.length
 
   -> do
      result = arguments
