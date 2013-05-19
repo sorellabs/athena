@@ -124,7 +124,7 @@ flip = (f) -> ...
 
 # -- Wrapping & Advice -------------------------------------------------
 
-# #### Function wrap
+# ### Function wrap
 #
 # Returns a function that wraps the invocation of the given function.
 #
