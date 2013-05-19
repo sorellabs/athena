@@ -128,7 +128,7 @@ flip = (f) -> ...
 #
 # Returns a function that wraps the invocation of the given function.
 #
-# :: f:(A... -> B) -> (f, B... -> C) -> C
+# :: (f, C... -> D) -> f:(A... -> B) -> C... -> D
 wrap = (wrapper, f) -> (...args) ->
   wrapper.apply this, ([f] ++ args)
 
