@@ -3,16 +3,16 @@ browserify = $(bin)/browserify lib/index.js
 lsc = $(bin)/lsc
 
 lib: src/*.ls
-	lsc -o lib -c src/*.ls
+	$(lsc) -o lib -c src/*.ls
 
 build/test: test/*.ls
-	lsc -o build/test -c test/*.ls
+	$(lsc) -o build/test -c test/*.ls
 
 build/test/specs: build/test test/specs/*.ls
-	lsc -o build/test/specs -c test/specs/*.ls
+	$(lsc) -o build/test/specs -c test/specs/*.ls
 
 build/lib: src/*.ls
-	lsc -o build/lib -c src/*.ls
+	$(lsc) -o build/lib -c src/*.ls
 
 dist/athena.umd.js: dist lib
 	$(browserify) --standalone athena > $@
