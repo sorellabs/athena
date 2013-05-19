@@ -20,7 +20,9 @@
     "brofist": "~0.2.2",
     "brofist-minimal": "~0.1.1",
     "claire": "~0.3.4",
-    "browserify": "~2.14.1"
+    "browserify": "~2.14.1",
+    "chai-as-promised": "~3.3.1",
+    "pinky": "~0.1.2"
   },
   "optionalDependencies": {},
   "license": "MIT",
