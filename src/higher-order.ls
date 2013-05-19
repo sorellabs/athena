@@ -86,7 +86,7 @@ curry = (arity, f, initial) ->
 #
 # Partially applies the given arguments to the function.
 #
-# :: (a... -> b), a... -> a... -> b
+# :: (A... -> B), A... -> A... -> B
 partial = (f, ...args) -> (...additional-args) ->
   f.apply this, (args ++ additional-args)
 
