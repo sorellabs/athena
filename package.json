@@ -2,7 +2,7 @@
   "author": "Quildreen \"Sorella\" Motta <quildreen@gmail.com>",
   "name": "athena",
   "description": "Strategically gives you awesome functional combinators for an abstraction war!",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "repository": {
     "type": "git",
     "url": "git://github.com/killdream/athena.git"
