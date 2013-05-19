@@ -43,6 +43,7 @@ Or = ->
                     result = f.apply this, arguments
 
                     if result => return result
+     return result
 
 
 # ### Function and
@@ -72,6 +73,9 @@ Not = (f) -> -> not (f.apply this, arguments)
 
 # -- Exports -----------------------------------------------------------
 module.exports =
-  or  : Or
-  and : And
-  not : Not
+  or   : Or
+  _or  : Or
+  and  : And
+  _and : And
+  not  : Not
+  _not : Not
