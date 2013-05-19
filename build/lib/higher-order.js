@@ -3,7 +3,7 @@
   compose = function(){
     var fs, len;
     fs = arguments;
-    len = funs.length;
+    len = fs.length;
     return function(){
       var result, i;
       result = arguments;
@@ -47,13 +47,11 @@
   };
   uncurryBind = function(f){
     return function(args){
-      return f.call.apply(this, args);
+      return f.call.apply(f, args);
     };
   };
   flip = function(f){
-    return function(a, b){
-      return f.call(this, b, a);
-    };
+    throw Error('unimplemented');
   };
   wrap = function(wrapper, f){
     return function(){
