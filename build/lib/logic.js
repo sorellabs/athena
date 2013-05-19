@@ -12,6 +12,7 @@
           return result;
         }
       }
+      return result;
     };
   };
   And = function(){
@@ -36,7 +37,10 @@
   };
   module.exports = {
     or: Or,
+    _or: Or,
     and: And,
-    not: Not
+    _and: And,
+    not: Not,
+    _not: Not
   };
 }).call(this);
