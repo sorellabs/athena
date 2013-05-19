@@ -1,30 +1,32 @@
 (function(){
-  var curry, either, Unless, limit, once, Until, When;
+  var curry, either, Unless, limit, once, Until, When, slice$ = [].slice;
   curry = require('./higher-order').curry;
-  either = function(pred, consequent, alternate){
-    return function(){
-      switch (false) {
-      case !pred.apply(this, arguments):
-        return consequent.apply(this, arguments);
-      default:
-        return alternate.apply(this, arguments);
-      }
-    };
-  };
-  Unless = function(pred, consequent){
-    if (!pred.apply(this, arguments)) {
-      return consequent.apply(this, arguments);
+  either = curry(4, function(pred, consequent, alternate){
+    var xs;
+    xs = slice$.call(arguments, 3);
+    switch (false) {
+    case !pred.call(this, xs):
+      return consequent.call(this, xs);
+    default:
+      return alternate.call(this, xs);
     }
-  };
-  limit = function(times, f){
+  });
+  Unless = curry(3, function(pred, consequent){
+    var xs;
+    xs = slice$.call(arguments, 2);
+    if (!pred.call(this, xs)) {
+      return consequent.call(this, xs);
+    }
+  });
+  limit = curry(function(times, f){
     return function(){
-      if (--times < 0) {
+      if (--times >= 0) {
         return f.apply(this, arguments);
       }
     };
-  };
+  });
   once = limit(1);
-  Until = function(pred, f){
+  Until = curry(function(pred, f){
     var call;
     call = true;
     return function(){
@@ -32,8 +34,8 @@
         return f.apply(this, arguments);
       }
     };
-  };
-  When = function(pred, f){
+  });
+  When = curry(function(pred, f){
     var call;
     call = false;
     return function(){
@@ -45,13 +47,16 @@
         return f.apply(this, arguments);
       }
     };
-  };
+  });
   module.exports = {
     either: either,
-    unless: curry(Unless),
+    unless: Unless,
+    _unless: Unless,
     limit: limit,
     once: once,
-    until: curry(Until),
-    when: curry(When)
+    until: Until,
+    _until: Until,
+    when: When,
+    _when: When
   };
 }).call(this);

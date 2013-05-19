@@ -75,7 +75,7 @@ once = limit 1
 # Yields a function that will only be called until the predicate holds.
 #
 # :: (A... -> bool) -> (A... -> B) -> (A... -> maybe B)
-Until = (pred, f) ->
+Until = curry (pred, f) ->
   call = true
 
   -> if call and (call := not pred ...) => f ...
@@ -86,7 +86,7 @@ Until = (pred, f) ->
 # Yields a function that will only be called after the predicate holds.
 #
 # :: (A... -> bool) -> (A... -> B) -> (A... -> maybe B)
-When = (pred, f) ->
+When = curry (pred, f) ->
   call = false
 
   -> | call     => f ...
@@ -103,8 +103,8 @@ module.exports = {
   _unless : Unless
   limit
   once
-  until: curry Until
-  _until: curry Until
-  when: curry When
-  _when: curry When
+  until  : Until
+  _until : Until
+  when   : When
+  _when  : When
 }
