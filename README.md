@@ -1,4 +1,4 @@
-# Athena [![Build Status](https://travis-ci.org/killdream/athena.png)](https://travis-ci.org/killdream/athena)
+# Athena [![Build Status](https://travis-ci.org/killdream/athena.png)](https://travis-ci.org/killdream/athena) ![Dependencies Status](https://david-dm.org/killdream/athena.png)
 
 
 Athena is a library that provides core functional combinators like `Curry`,
