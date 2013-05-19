@@ -117,8 +117,8 @@ uncurry-bind = (f) -> (args) -> f.call.apply f, args
 #
 # Inverts the order in which parameters are applied for a binary function.
 #
-# :: (A, B -> C) -> B, A -> C
-flip = (f) -> (a, b) -> f.call this, b, a
+# :: (A, B -> C) -> B -> A -> C
+flip = (f) -> ...
 
 
 
