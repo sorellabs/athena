@@ -40,9 +40,9 @@
 # Executes one or the other function based on the predicate.
 #
 # :: (A... -> bool) -> (A... -> B) -> (A... -> C) -> A... -> B | C
-either = (pred, consequent, alternate) -> ->
-  | pred ...  => consequent ...
-  | otherwise => alternate ...
+either = curry 4, (pred, consequent, alternate, ...xs) ->
+  | pred.call this, xs => consequent.call this, xs
+  | otherwise          => alternate.call this, xs
 
 
 # ### Function unless
@@ -50,7 +50,8 @@ either = (pred, consequent, alternate) -> ->
 # Executes the function unless the predicate holds.
 #
 # :: (A... -> bool) -> (A... -> B) -> A... -> maybe B
-Unless = (pred, consequent) -> unless pred ... => consequent ...
+Unless = curry 3, (pred, consequent, ...xs) ->
+  unless pred.call this, xs => consequent.call this, xs
 
 
 # ### Function limit
@@ -58,7 +59,7 @@ Unless = (pred, consequent) -> unless pred ... => consequent ...
 # Yields a function that may only be called X times
 #
 # :: number -> (A... -> B) -> (A... -> maybe B)
-limit = (times, f) -> -> if --times < 0 => f ...
+limit = curry (times, f) -> -> if --times >= 0 => f ...
 
 
 # ### Function once
@@ -98,9 +99,12 @@ When = (pred, f) ->
 # -- Exports -----------------------------------------------------------
 module.exports = {
   either
-  unless: curry Unless
+  unless  : Unless
+  _unless : Unless
   limit
   once
   until: curry Until
+  _until: curry Until
   when: curry When
+  _when: curry When
 }
