@@ -15,7 +15,7 @@ module.exports = spec '{} async' (it, spec) ->
 
       # Firefox will fire the callback slightly earlier, so we
       # set an error margin.
-      expect promise .to.eventually.be.at.least 0.98
+      expect promise .to.eventually.be.at.least 0.9
 
   spec 'defer()' ->
     it 'Should execute in the next loop/end of this loop.' ->
