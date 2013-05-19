@@ -110,7 +110,7 @@ uncurry = (f) -> (args) -> f.apply this, args
 # the result of applying the original function to such arguments.
 #
 # :: (A... -> B) -> [this, A...] -> B
-uncurry-bind = (f) -> (args) -> f.call.apply this, args
+uncurry-bind = (f) -> (args) -> f.call.apply f, args
 
 
 # ### Function flip
