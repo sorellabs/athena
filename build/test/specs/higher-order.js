@@ -64,11 +64,9 @@
       add = function(a, b, c){
         return a + b + (c || 0);
       };
-      return it('For a function `f: (a..., b...) → c`, should yield `f: (b...) → c`', function(){
-        return forAll(Int, Int).satisfy(function(a, b){
-          return partial(add, 1)(2) === add(1, 2, 0);
-        }).asTest();
-      });
+      return it('For a function `f: (a..., b...) → c`, should yield `f: (b...) → c`', forAll(Int, Int).satisfy(function(a, b){
+        return partial(add, 1)(2) === add(1, 2, 0);
+      }).asTest());
     });
     spec('uncurry()', function(it){
       var sum;
@@ -79,11 +77,9 @@
           return x$ + y$;
         }), 0);
       };
-      return it('Should convert an `f: (a... -> b)` into `f: [a] -> b`', function(){
-        return forAll(Int, Int, Int).satisfy(function(a, b, c){
-          return uncurry(sum)([a, b, c]) === sum(a, b, c);
-        }).asTest();
-      });
+      return it('Should convert an `f: (a... -> b)` into `f: [a] -> b`', forAll(Int, Int, Int).satisfy(function(a, b, c){
+        return uncurry(sum)([a, b, c]) === sum(a, b, c);
+      }).asTest());
     });
     spec('uncurry-bind()', function(it){
       var sum, usum;

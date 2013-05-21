@@ -9,11 +9,9 @@
   })(Any);
   module.exports = spec('{} core', function(it, spec){
     spec('noop()', function(it){
-      return it('Should do nothing', function(){
-        return forAll(Value).satisfy(function(a){
-          return noop(a) === void 8;
-        }).asTest();
-      });
+      return it('Should do nothing', forAll(Value).satisfy(function(a){
+        return noop(a) === void 8;
+      }).asTest());
     });
     spec('k()', function(it){
       it('When applied to X should return a function', forAll(Value).satisfy(function(a){

@@ -14,7 +14,7 @@
         delay(1, function(){
           return promise.fulfill((new Date - start) / 1000);
         });
-        return expect(promise).to.eventually.be.at.least(1);
+        return expect(promise).to.eventually.be.at.least(0.9);
       });
     });
     return spec('defer()', function(it){

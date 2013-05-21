@@ -67,7 +67,7 @@ module.exports = spec '{} higher-order' (it, spec) ->
   spec 'partial()' ->
     add = (a, b, c) -> a + b + (c or 0)
 
-    it 'For a function `f: (a..., b...) → c`, should yield `f: (b...) → c`' ->
+    it 'For a function `f: (a..., b...) → c`, should yield `f: (b...) → c`' do
       for-all(Int, Int) .satisfy (a, b) ->
         partial(add, 1)(2) == add(1, 2, 0)
       .as-test!
@@ -76,7 +76,7 @@ module.exports = spec '{} higher-order' (it, spec) ->
   spec 'uncurry()' ->
     sum = (...as) -> as.reduce (+), 0
     
-    it 'Should convert an `f: (a... -> b)` into `f: [a] -> b`' ->
+    it 'Should convert an `f: (a... -> b)` into `f: [a] -> b`' do
       for-all(Int, Int, Int) .satisfy (a, b, c) ->
         uncurry(sum)([a, b, c]) == sum(a, b, c)
       .as-test!

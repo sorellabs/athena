@@ -9,7 +9,7 @@ Value = (sized -> 10) Any
 module.exports = spec '{} core' (it, spec) ->
 
   spec 'noop()' ->
-    it 'Should do nothing' ->
+    it 'Should do nothing' do
       for-all(Value) .satisfy (a) ->
         (noop a) is void
       .as-test!
