@@ -31,12 +31,12 @@ Browser):
     $ npm install athena
     
 If you **really** want to continue suffering with old and terrible module
-systems (or use no module system at all), you can run `make dist` yourself:
+systems (or use no module system at all), you can run `make bundle` yourself:
 
     $ git clone git://github.com/killdream/athena
     $ cd athena
     $ npm install
-    $ make dist
+    $ make bundle
     # Then use `dist/athena.umd.js` wherever you want.
     
 [browserify]: https://github.com/substack/node-browserify
