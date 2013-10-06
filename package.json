@@ -12,7 +12,9 @@
     "test": "make test",
     "prepublish": "make prepublish"
   },
-  "dependencies": {},
+  "dependencies": {
+    "LiveScript": "~1.2.0"
+  },
   "devDependencies": {
     "LiveScript": "~1.1.1",
     "brofist-tap": "~0.1.0",
